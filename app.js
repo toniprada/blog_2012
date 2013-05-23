@@ -36,6 +36,10 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
+app.locals.countValue = function() {
+  return count.countValue();
+}
+
 // Helper estatico:
 app.locals.escapeText =  function(text) {
    return String(text)
