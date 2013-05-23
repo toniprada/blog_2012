@@ -13,5 +13,12 @@
     "sequelize": "git://github.com/sequelize/sequelize.git",
     "xmlbuilder": "0.4.2",
     "sqlite3": ">=2.0.0"
+  },
+  "devDependencies": {
+    "sqlite3": ">=2.0.0"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
   }
 }
