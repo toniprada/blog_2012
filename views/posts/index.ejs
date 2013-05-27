@@ -15,6 +15,8 @@
         <%= posts[i].body.slice(0,300) %> ... 
      </p>
 
+     <p> Comentarios: <%= posts[i].comments && posts[i].comments.length || "Ninguno" %> </p>
+
      <footer>
 
       <% if (session.user && session.user.id == posts[i].authorId) {%>
