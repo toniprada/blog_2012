@@ -32,6 +32,7 @@ app.configure(function(){
 
   app.use(require('connect-flash')());
 
+  app.use(sessionController.saveTime);
   // Helper dinamico:
   app.use(function(req, res, next) {
 

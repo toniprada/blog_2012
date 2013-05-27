@@ -1,6 +1,8 @@
 
 var util = require('util');
 
+var SESSION_EXPIRED_TIME_MS = 5*60*1000;
+
 
 // Middleware: Login is required:
 //
@@ -93,5 +95,24 @@ exports.destroy = function(req, res) {
     req.flash('success', 'Logout.');
     res.redirect("/login");     
 };
+
+
+exports.saveTime = function(req, res, next){
+    if (req.session.user) {
+        var timestamp = new Date().getTime();
+        console.log("saved session timestamp:" + timestamp);
+        if (req.session.user.timestamp && req.session.user.timestamp + SESSION_EXPIRED_TIME_MS < timestamp) {
+            console.log("session expired");
+                delete req.session.user;
+                req.flash('info', 'La sesión ha expirado');
+                res.redirect('/');
+        } else {
+            req.session.user.timestamp = timestamp;
+        }
+    }
+    next();
+};
+
+
 
 

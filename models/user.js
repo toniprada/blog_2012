@@ -27,6 +27,9 @@ module.exports = function(sequelize, DataTypes) {
         },
         salt: {
             type: DataTypes.STRING
+        },
+        timestamp: {
+            type: DataTypes.INTEGER
         }
         
     });
