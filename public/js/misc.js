@@ -8,4 +8,10 @@ var confirmarSubmit = function(msg,form_name) {
    return false;
 }
 
+var submitForm = function(form_name) {
+   document.all[form_name].submit();
+   return false;
+}
+
+
 

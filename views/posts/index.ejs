@@ -13,6 +13,13 @@
         <%= posts[i].body.slice(0,1000) %> ... 
      </p>
 
+    <% var form_name = 'fpj' + i; %>
+    <% if (session.user) { %>
+         <form name='<%= form_name %>' method="post" action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>' >
+           <input type='hidden' name='_method' value='put'>
+            <a class="fav_off" href=''  onclick="return submitForm('<%= form_name %>')">Hacer favorito</a>
+        </form>
+     <% } %>
      <footer class="pull-right">
 
       <% if (session.user && session.user.id == posts[i].authorId) {%>

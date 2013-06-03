@@ -60,8 +60,8 @@ Comment.belongsTo(Post, {foreignKey: 'postId'});
 
 Attachment.belongsTo(Post, {foreignKey: 'postId'});
 
-Favourite.belongsTo(Post, {as: 'Author', foreignKey: 'userId'});
-Favourite.belongsTo(User, {foreignKey: 'postId'});
+Favourite.belongsTo(User, {as: 'Author', foreignKey: 'userId'});
+Favourite.belongsTo(Post, {as: 'Post', foreignKey: 'postId'});
 
 // Exportar los modelos:
 exports.Post = Post;
