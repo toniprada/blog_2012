@@ -62,4 +62,5 @@ exports.User = User;
 exports.Comment = Comment;
 exports.Attachment = Attachment;
 
+
 sequelize.sync();
