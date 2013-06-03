@@ -1,46 +1,46 @@
 
 <% for (var i in favourites) { %>
-  <div class="post">
-    <div class="page-header">
-      <h1>
-        <a href='/posts/<%= favourites[i].post.id %>' class='titlelink'> <%= favourites[i].post.title %> </a>
-        <small>por <em> <%= favourites[i].author && favourites[i].author.name || "Sin autor" %> </em></small>
-      </h1>
-      <em> Añadido a favoritos: <%= favourites[i].updatedAt.toLocaleDateString() %></em>
-   </div>
-      
-     <p>
-        <%= favourites[i].post.body.slice(0,1000) %> ... 
-     </p>
-
-    <% var form_name = 'fpj' + i; %>
-    <% if (session.user) { %>
-        <form name='<%= form_name %>' method="post" action='/users/<%= session.user.id %>/favourites/<%= favourites[i].id %>' >
-           <input type='hidden' name='_method' value='delete'>
-            <a class="fav_on" href=''  onclick="return submitForm('<%= form_name %>')">Eliminar de favoritos</a>
-        </form>
-     <% } %>
-     <footer class="pull-right">
-
-      <% if (session.user && session.user.id == favourites[i].post.authorId) {%>
-
-        <% var form_name = 'fpi' + i; %>
-
-        <form method='post' action='/posts/<%= favourites[i].post.id %>'
-              name='<%= form_name %>'>
-          <input type='hidden' name='_method' value='delete'>
-          <a class='btn btn-warning btn-mini' href="/posts/<%= favourites[i].post.id %>/edit"> 
-             <i class='icon-edit icon-white'></i> Editar 
-          </a> 
-          <a class='btn btn-danger btn-mini' href="" 
-             onclick="return confirmarSubmit('¿Seguro que desea borrar el post?', '<%= form_name %>')"> 
-             <i class='icon-trash icon-white'></i> Borrar
-          </a>  
-        </form>
-
-      <% } %>
-
-     <footer>
+<div class="post">
+  <div class="page-header">
+    <h1>
+      <a href='/posts/<%= favourites[i].post.id %>' class='titlelink'> <%= favourites[i].post.title %> </a>
+    </h1>
+    <em> Añadido a favoritos: <%= favourites[i].updatedAt.toLocaleDateString() %></em>
   </div>
+  <% if (session.user) { %>
+  <% var form_name = 'fpj' + i; %>
+  <form class="fav_form" name='<%= form_name %>' method="post" action='/users/<%= session.user.id %>/favourites/<%= favourites[i].post.id %>' >
+   <input type='hidden' name='_method' value='delete'>
+   <a class="fav fav_on" href=''  onclick="return submitForm('<%= form_name %>')">Eliminar de favoritos</a>
+ </form>
+ <% } %>
+
+ <p class="body">
+  <%= favourites[i].post.body.slice(0,1000) %> ... 
+</p>
+
+
+<footer class="pull-right">
+
+  <% if (session.user && session.user.id == favourites[i].post.authorId) {%>
+
+  <% var form_name = 'fpi' + i; %>
+
+  <form method='post' action='/posts/<%= favourites[i].post.id %>'
+    name='<%= form_name %>'>
+    <input type='hidden' name='_method' value='delete'>
+    <a class='btn btn-warning btn-mini' href="/posts/<%= favourites[i].post.id %>/edit"> 
+     <i class='icon-edit icon-white'></i> Editar 
+   </a> 
+   <a class='btn btn-danger btn-mini' href="" 
+   onclick="return confirmarSubmit('¿Seguro que desea borrar el post?', '<%= form_name %>')"> 
+   <i class='icon-trash icon-white'></i> Borrar
+ </a>  
+</form>
+
+<% } %>
+
+<footer>
+</div>
 <%  }; %>
 

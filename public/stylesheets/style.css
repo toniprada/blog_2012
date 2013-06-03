@@ -75,3 +75,33 @@ Comment
   line-height: 27px;
   color: inherit;
 }
+
+.fav {
+  text-indent: -9999px;
+  height: 50px;
+  width: 50px;
+  white-space: nowrap;
+  display: block;
+  float:right;.
+}
+
+.post .page-header {
+  float:left;
+}
+
+.post .body {
+  clear:both;
+}
+
+.fav_form {
+  float:right;
+}
+
+.fav_on {
+  background-image: url(/images/star_on.png);
+}
+
+.fav_off {
+  background-image: url(/images/star_off.png);
+}
+

@@ -17,9 +17,6 @@ exports.index = function(req, res, next) {
               order: 'updatedAt DESC'
 	            })
         .success(function(favourites) {
-
-          // console.log(posts);
-          console.log(favourites);
             switch (format) { 
               case 'html':
               case 'htm':

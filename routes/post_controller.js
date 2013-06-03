@@ -8,7 +8,7 @@ var models = require('../models/models.js');
 exports.load = function(req, res, next, id) {
 
    models.Post
-        .find({where: {id: Number(id)}})
+        .find({where: {id: Number(id)}, include: [{ model: models.Favourite, as: 'Favourite' }]})
         .success(function(post) {
             if (post) {
                 req.post = post;
@@ -49,7 +49,7 @@ exports.index = function(req, res, next) {
 
     models.Post
         .findAll({order: 'updatedAt DESC',
-	                include: [ { model: models.User, as: 'Author' } ]
+	                include: [ { model: models.User, as: 'Author' },{ model: models.Favourite, as: 'Favourite' } ]
 	      })
         .success(function(posts) {
 
