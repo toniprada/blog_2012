@@ -49,7 +49,7 @@ exports.index = function(req, res, next) {
 
     models.Post
         .findAll({order: 'updatedAt DESC',
-	                include: [ { model: models.User, as: 'Author' },{ model: models.Favourite, as: 'Favourite' } ]
+	                include: [ { model: models.User, as: 'Author' } ]
 	      })
         .success(function(posts) {
 
@@ -58,9 +58,42 @@ exports.index = function(req, res, next) {
             switch (format) { 
               case 'html':
               case 'htm':
-                  res.render('posts/index', {
-                    posts: posts
-                  });
+                  if (req.session.user) {
+                      var postIds = posts.map( 
+                        function(post) 
+                          {return post.id;}
+                      );
+                      var patch;
+                      if (postIds.length == 0) {
+                          patch= '"Favourites"."postId" in (NULL)';
+                      } else {
+                          patch='"Favourites"."postId" in ('+postIds.join(',')+')';
+                      } 
+                      patch = patch + ' AND "Favourites"."userId"=' + req.session.user.id;
+                      // busca los posts identificados por array postIds
+                      models.Favourite.findAll({order: 'updatedAt DESC',
+                                  where: patch 
+                               })
+                               .success(function(favourites) {
+                            
+                          var favouritesIds = favourites.map( 
+                            function(favourite) 
+                              {return favourite.postId;}
+                          );
+                          for (var i = 0; i < posts.length; i++) {
+                            posts[i].isFavourite = (favouritesIds.indexOf(posts[i].id) > -1);
+                          }
+                          res.render('posts/index', {
+                            posts: posts
+                          });
+                      }).error(function(error) {
+                          next(error);
+                       });
+                  } else {
+                    res.render('posts/index', {
+                      posts: posts
+                    });
+                  }
                   break;
               case 'json':
                   res.send(posts);
@@ -140,15 +173,40 @@ exports.show = function(req, res, next) {
                           switch (format) { 
                             case 'html':
                             case 'htm':
-                                var new_comment = models.Comment.build({
+       
+                                if (req.session.user) {
+                                  var new_comment = models.Comment.build({
                                     body: 'Introduzca el texto del comentario'
                                 });
+                                      var patch = '"Favourites"."postId"=' + req.post.id;
+                                
+                                      patch = patch + ' AND "Favourites"."userId"=' + req.session.user.id;
+                                      // busca los posts identificados por array postIds
+                                      models.Favourite.findAll({order: 'updatedAt DESC', where: patch 
+                                        }).success(function(favourites) {
+                                          var favouritesIds = favourites.map( 
+                                            function(favourite) 
+                                              {return favourite.postId;}
+                                          );
+                                          req.post.isFavourite = (favouritesIds.indexOf(req.post.id) > -1);
+                                          res.render('posts/show', {
+                                              post: req.post,
+                                              comments: comments,
+                                              comment: new_comment,
+                                              attachments: attachments
+                                          });
+                                      }).error(function(error) {
+                                          next(error);
+                                      });
+                                  } else {   
+
                                 res.render('posts/show', {
                                     post: req.post,
                                     comments: comments,
                                     comment: new_comment,
                                     attachments: attachments
                                 });
+                                  }
                                 break;
                             case 'json':
                                 res.send(req.post);

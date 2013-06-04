@@ -73,7 +73,9 @@ exports.index = function(req, res, next) {
                     {model:models.Favourite,as:'Favourite'} ]
                  })
                  .success(function(posts) {
-
+                  for (var i = 0; i < posts.length; i++) {
+                    posts[i].isFavourite = true;
+                  }
           // console.log(posts);
           
             switch (format) { 

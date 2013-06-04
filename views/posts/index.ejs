@@ -11,12 +11,7 @@
    </div>
    <% if (session.user) { %>
         <% var form_name = 'fpj' + i; %>
-          <% for (var j = 0; j < posts[i].favourite.length; j++) { 
-              if (posts[i].favourite[j].userId == session.user.id) {
-                posts[i].isFavourite = true;  
-              }
-          }
-          if (posts[i].isFavourite) { %>
+          <% if (posts[i].isFavourite) { %>
             <form class="fav_form" class="fav_form" name='<%= form_name %>' method="post" action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>' >
             <input type='hidden' name='_method' value='delete'>
             <a class="fav fav_on" href=''  onclick="return submitForm('<%= form_name %>')">Eliminar de favoritos</a>
